@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interactiva NotebookLM</title>
+    <!-- Carga de Tailwind CSS para estilos modernos y responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para la tipografía y el énfasis */
+        :root {
+            --color-primary: #0EA5E9;
+            /* Celeste */
+            --color-secondary: #1F2937;
+            /* Gris oscuro */
+            --color-accent: #2563EB;
+            /* Azul */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+
+        /* Estilo para los títulos de sección (simulando los emojis) */
+        .section-icon {
+            font-size: 1.5rem;
+            line-height: 1;
+            margin-right: 0.5rem;
+        }
+
+        /* Estilo para los bloques de contenido (que se expanden) */
+        .content-block {
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .content-block:hover {
+            background-color: #eef2ff;
+            /* Púrpura muy suave al pasar el ratón */
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            padding: 0 1rem;
+        }
+
+        .accordion-content.active {
+            max-height: 2000px;
+            /* Suficientemente grande para el contenido unificado */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* Estilo para los indicadores de número de uso (1, 2, 3...) */
+        .use-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.3), 0 2px 4px -2px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Estilo para los botones de recursos de EL ESTUDIO */
+        .btn-recurso {
+            background-color: #7dd3fc;
+            /* Celeste claro */
+            color: #075985;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px #38bdf8;
+            font-size: 0.9rem;
+        }
+
+        .btn-recurso:hover {
+            background-color: #38bdf8;
+            color: white;
+        }
+
+        .btn-recurso.activa {
+            background-color: #0369a1;
+            /* Azul institucional al activarse */
+            color: white;
+            box-shadow: 0 1px #0284c7;
+            transform: translateY(1px);
+        }
+
+        #resource-detail {
+            background-color: #f0f9ff;
+            border: 1px solid #7dd3fc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        #resource-detail h4 {
+            color: #075985;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .ejemplo strong {
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <div id="guion-container" class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
+
+        <!-- INTRODUCCIÓN - Título Principal -->
+        <header class="p-6 md:p-8 bg-gray-900 text-white rounded-t-2xl shadow-lg">
+            <h1 class="text-xl md:text-3xl font-extrabold mb-2 flex items-center">
+                <span class="section-icon text-4xl mr-3">🎙️</span>
+                GUION DIDÁCTICO: IA para Profesores (Notebook LM)
+            </h1>
+            <p class="text-sm md:text-base text-gray-400">
+                Hola, profes. Hoy vamos a ver cómo una herramienta de inteligencia artificial llamada Notebook LM,
+                desarrollada por Google, puede ayudarte a planificar, crear y automatizar contenidos educativos de forma
+                sencilla y rápida.
+            </p>
+        </header>
+
+        <!-- SECCIONES PRINCIPALES (ACORDEÓN) -->
+        <main class="p-4 md:p-6 space-y-4">
+
+            <!-- Objetivo Principal del Vídeo -->
+            <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-lg">
+                <p class="font-semibold text-sky-700">En este vídeo vas a aprender a utilizar Notebook LM para:</p>
+                <ul class="list-disc list-inside text-sm mt-2 text-gray-700 space-y-1 ml-4">
+                    <li>Crear podcasts educativos</li>
+                    <li>Generar vídeos explicativos</li>
+                    <li>Elaborar resúmenes de textos</li>
+                    <li>Diseñar cuestionarios automáticos</li>
+                    <li>Redactar informes o reportes pedagógicos</li>
+                    <li class="font-medium mt-1">Y <strong>todo ello sin necesidad de ser experto en
+                            tecnología</strong>.</li>
+                </ul>
+            </div>
+
+            <!-- BLOQUE 1: ¿QUÉ ES NOTEBOOK LM? (FLUIDO DE ZONAS) -->
+            <section class="content-block border border-gray-200 rounded-xl">
+                <div class="p-4 md:p-5 flex items-center justify-between" onclick="toggleAccordion(this)">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        <span class="section-icon">📌</span>
+                        ¿QUÉ ES NOTEBOOK LM? (FLUJO DE 3 ZONAS)
+                    </h2>
+                    <svg class="w-6 h-6 transform transition-transform duration-300 arrow-icon text-gray-500"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="accordion-content bg-white transition-all duration-300">
+                    <div class="text-gray-700">
+                        <p class="mb-3">Notebook LM (Language Model) es una herramienta de inteligencia artificial
+                            conversacional desarrollada por Google. Permite trabajar con <strong>tus propios
+                                documentos</strong>: puedes subir apuntes, artículos, textos de lectura o materiales de
+                            clase.</p>
+
+                        <div class="border border-sky-200 p-3 rounded-lg bg-sky-50 mt-4">
+                            <p class="font-semibold text-sky-700 mb-4">Flujo de Trabajo (Las 3 Zonas):</p>
+                            <div class="flex justify-between items-start text-center text-sm font-medium">
+                                <div class="flex-1 p-2 bg-white rounded shadow mx-1">
+                                    <p class="font-bold">1. <strong>EL CUADERNO</strong> (Input/Fuentes)</p>
+                                    <p class="text-xs mt-1 text-gray-500">Aquí metes <strong>tu materia prima</strong>.
+                                        Subes tus PDFs, documentos de Drive o enlaces. La regla de oro es: <strong>nada
+                                            entra si tú no lo has añadido</strong>. Esta es tu base de conocimiento
+                                        segura.</p>
+                                </div>
+                                <span class="mx-2 text-xl text-sky-400">→</span>
+                                <div class="flex-1 p-2 bg-white rounded shadow mx-1">
+                                    <p class="font-bold">2. <strong>EL CHAT</strong> (Análisis/Citas)</p>
+                                    <p class="text-xs mt-1 text-gray-500">El <strong>cerebro analítico</strong>.
+                                        Conversas con tus fuentes de forma <strong>selectiva</strong> (tú eliges con qué
+                                        documentos te responde). Genera respuestas con <strong>citas
+                                            verificables</strong> y guarda los resultados clave como
+                                        <strong>Notas</strong> para usarlos después.</p>
+                                </div>
+                                <span class="mx-2 text-xl text-sky-400">→</span>
+                                <div class="flex-1 p-2 bg-white rounded shadow mx-1">
+                                    <p class="font-bold">3. <strong>EL ESTUDIO</strong> (Output/Material)</p>
+                                    <p class="text-xs mt-1 text-gray-500">El <strong>taller de producción</strong>. Aquí
+                                        es donde todo lo que has analizado se convierte en piezas <strong>listas para
+                                            usar</strong>: guías de estudio, flashcards, mapas mentales y vídeos.
+                                        <strong>Aquí es donde ahorras horas reales</strong>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BLOQUE 2: EL ESTUDIO - RECURSOS INTERACTIVOS -->
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+                <div class="p-4 md:p-5 bg-gray-100 flex items-center">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        <span class="section-icon">🛠️</span>
+                        EL ESTUDIO (ZONA 3): RECURSOS LISTOS
+                    </h2>
+                </div>
+
+                <div class="p-4 md:p-5">
+                    <p class="mb-4 text-gray-700">Aquí, la IA produce material didáctico estructurado que puedes usar
+                        directamente en clase. Haz clic para ver sus opciones y ejemplos:</p>
+
+                    <div class="flex flex-wrap gap-3 mb-5">
+                        <button class="btn-recurso activa" id="btn-informe" onclick="mostrarRecurso('informe')">1.
+                            Informes/Guía de Estudio</button>
+                        <button class="btn-recurso" id="btn-flashcards" onclick="mostrarRecurso('flashcards')">2.
+                            Tarjetas Didácticas</button>
+                        <button class="btn-recurso" id="btn-mapa" onclick="mostrarRecurso('mapa')">3. Mapa
+                            Mental</button>
+                        <button class="btn-recurso" id="btn-audio" onclick="mostrarRecurso('audio')">4. Resumen de
+                            Audio</button>
+                        <button class="btn-recurso" id="btn-video" onclick="mostrarRecurso('video')">5. Resumen de
+                            Vídeo</button>
+                    </div>
+
+                    <div id="resource-detail">
+                        <!-- Default content when loaded (Informe) -->
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">1. Informes / Guía de Estudio</h3>
+                        <p class="text-gray-600 mb-3"><strong>Propósito:</strong> <span
+                                class="font-bold text-blue-700">Planificación Curricular y Documentos
+                                Estructurados.</span> Ideal para generar planes de lección detallados o guías de estudio
+                            complejas, todo maquetado y listo para compartir. Excelente para documentar el proceso.</p>
+
+                        <h4 class="font-bold text-gray-700 mt-4 mb-2">Opciones de Formato:</h4>
+                        <ul class="list-disc list-inside ml-4 text-gray-600 space-y-1">
+                            <li><strong>Formatos Base:</strong> Creación Propia, Resumen, Guía de Estudio, Entrada de
+                                Blog.</li>
+                            <li><strong>Sugerencias:</strong> Genera automáticamente Propuesta de itinerario, Informe de
+                                riesgos, Relato de viaje, Glosario, basados en tus fuentes.</li>
+                        </ul>
+
+                        <div class="mt-4 pt-3 border-t border-gray-300 ejemplo">
+                            <h4 class="font-bold text-gray-700 mb-2">Ejemplo Práctico:</h4>
+                            <ul class="list-disc list-inside ml-4 text-gray-600 space-y-1">
+                                <li><strong>Ciencias Sociales (4º Primaria):</strong> Generar una Guía de Estudio con el
+                                    formato <strong>"Creación Propia"</strong> sobre los Continentes y Océanos,
+                                    incluyendo 3 sesiones con actividades y un mapa para colorear, basándose en el libro
+                                    de texto y un atlas escolar.</li>
+                                <li><strong>Ciencias Naturales (5º Primaria):</strong> Usar el formato
+                                    <strong>"Resumen"</strong> para crear una ficha comparativa sobre animales
+                                    vertebrados e invertebrados, citando las fuentes del libro de Ciencias.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- BLOQUE 3: USOS PRÁCTICOS EN EL AULA (ADICIONALES) -->
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+                <div class="p-4 md:p-5 bg-gray-100 flex items-center">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                        <span class="section-icon">✏️</span>
+                        USOS ADICIONALES (El Chat - Zona 2)
+                    </h2>
+                </div>
+
+                <div class="divide-y divide-gray-200">
+
+                    <!-- USO 4: Diseñar Cuestionarios y Actividades -->
+                    <div class="content-block p-4 md:p-5" onclick="toggleAccordion(this)">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="flex items-center font-semibold text-lg text-gray-800">
+                                    <span class="use-number">4</span>
+                                    <span class="ml-3">Diseñar Cuestionarios y Actividades <span
+                                            class="section-icon text-gray-500 text-base">❓</span></span>
+                                </h3>
+                                <p class="text-sm text-gray-500 ml-10 mt-1">Crea automáticamente preguntas tipo test o
+                                    verdadero/falso basadas en tus documentos.</p>
+                            </div>
+                            <svg class="w-5 h-5 transform transition-transform duration-300 arrow-icon text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div class="accordion-content text-sm">
+                            <p class="italic text-sky-600 mb-2">Ideal para: <strong>evaluar comprensión, practicar o
+                                    repasar conceptos</strong>.</p>
+                            <p class="font-medium text-gray-700 mb-1">Cómo hacerlo:</p>
+                            <ol class="list-decimal list-inside ml-4 text-gray-600 space-y-1">
+                                <li>Sube el contenido sobre el que quieras hacer la actividad (por ejemplo, un cuento o
+                                    una ficha de Ciencias).</li>
+                                <li>Pide el formato: <code
+                                        class="bg-gray-200 px-1 rounded">"Genera 5 preguntas tipo test con 3 opciones, con lenguaje sencillo para 3º de Primaria, y justifica la respuesta correcta."</code>
+                                    o <code
+                                        class="bg-gray-200 px-1 rounded">"Crea 10 preguntas de verdadero o falso sobre las partes de la planta, con explicación."</code>
+                                </li>
+                            </ol>
+                            <p class="mt-2 font-bold text-var(--color-primary)">✅ Resultado: <strong>ahorras tiempo y
+                                    obtienes actividades adaptadas al nivel que elijas</strong>.</p>
+                        </div>
+                    </div>
+
+                    <!-- USO 5: Redactar Informes Pedagógicos -->
+                    <div class="content-block p-4 md:p-5" onclick="toggleAccordion(this)">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h3 class="flex items-center font-semibold text-lg text-gray-800">
+                                    <span class="use-number">5</span>
+                                    <span class="ml-3">Redactar Informes Pedagógicos <span
+                                            class="section-icon text-gray-500 text-base">🧾</span></span>
+                                </h3>
+                                <p class="text-sm text-gray-500 ml-10 mt-1">Crea informes de evaluación o comunicados a
+                                    familias basados en datos y observaciones cargadas.</p>
+                            </div>
+                            <svg class="w-5 h-5 transform transition-transform duration-300 arrow-icon text-gray-500"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div class="accordion-content text-sm">
+                            <p class="italic text-sky-600 mb-2">Ideal para: <strong>elaborar informes de evaluación,
+                                    comunicados a familias o actas de seguimiento</strong>.</p>
+                            <p class="font-medium text-gray-700 mb-1">Cómo hacerlo:</p>
+                            <ol class="list-decimal list-inside ml-4 text-gray-600 space-y-1">
+                                <li>Carga las observaciones o el registro de conducta y participación del alumno o del
+                                    grupo.</li>
+                                <li>Pide un informe: <code
+                                        class="bg-gray-200 px-1 rounded">"Redacta un informe formal, con lenguaje cercano para las familias, sobre el progreso de lectoescritura del grupo de 2º de Primaria durante el primer trimestre."</code>
+                                    o <code
+                                        class="bg-gray-200 px-1 rounded">"Haz una valoración personalizada del alumno X en el área de matemáticas, basándote en este registro de notas."</code>
+                                </li>
+                            </ol>
+                            <p class="mt-2 font-bold text-var(--color-primary)">✅ Resultado: <strong>informes
+                                    estructurados, claros y listos para compartir o archivar</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONSEJOS PRÁCTICOS -->
+            <section class="p-4 md:p-6 bg-blue-50 rounded-xl border border-blue-200">
+                <h2 class="text-xl font-bold text-blue-800 mb-3 flex items-center">
+                    <span class="section-icon text-2xl mr-2">✅</span>
+                    CONSEJOS PRÁCTICOS
+                </h2>
+                <ul class="list-disc list-inside ml-4 text-gray-700 space-y-2">
+                    <li><strong>Empieza poco a poco</strong>: prueba con una única actividad para familiarizarte.</li>
+                    <li><strong>Sé específico en lo que pides</strong>: cuanto más claro seas, mejores serán los
+                        resultados.</li>
+                    <li><strong>Revisa siempre lo generado</strong>: aunque la IA ayuda mucho, sigue siendo importante
+                        que lo ajustes con tu criterio docente.</li>
+                    <li><strong>Combínalo con otras herramientas</strong>: como ChatGPT, Canva, Genially o EdPuzzle para
+                        enriquecer tu propuesta.</li>
+                </ul>
+            </section>
+        </main>
+
+        <!-- CONCLUSIÓN Y LLAMADO A LA ACCIÓN -->
+        <footer class="p-6 md:p-8 bg-gray-900 text-white rounded-b-2xl shadow-lg mt-4">
+            <div class="flex items-center mb-4">
+                <span class="section-icon text-3xl text-sky-400 mr-3">🟢</span>
+                <h2 class="text-xl md:text-2xl font-bold">CONCLUSIÓN</h2>
+            </div>
+            <p class="text-gray-300 mb-4">
+                Notebook LM no viene a sustituir al profesor, sino a potenciar su trabajo. Es una herramienta potente
+                que puede ayudarte a <strong>ahorrar tiempo, crear recursos de calidad</strong> y centrarte más en lo
+                que realmente importa: <strong>enseñar con sentido</strong>.
+            </p>
+
+            <div class="mt-6 border-t border-gray-700 pt-4">
+                <div class="flex items-center mb-3">
+                    <span class="section-icon text-3xl text-cyan-400 mr-3">📣</span>
+                    <h3 class="text-lg font-bold">LLAMADO A LA ACCIÓN</h3>
+                </div>
+                <ul class="list-disc list-inside ml-4 text-gray-300 space-y-1">
+                    <li>Suscríbete al canal para más vídeos sobre IA aplicada a la educación.</li>
+                    <li>Compártelo con otros docentes a quienes les pueda servir.</li>
+                    <li><strong>Y déjame en los comentarios</strong>:</li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Script para la funcionalidad de Acordeón (colapsar/expandir) -->
+    <script>
+        const recursosConceptuales = {
+            informe: {
+                titulo: '1. Informes / Guía de Estudio',
+                proposito: 'Planificación Curricular y Documentos Estructurados.',
+                descripcion: 'Ideal para generar planes de lección detallados, propuestas de secuencia didáctica o guías de estudio, todo maquetado y listo para compartir con tus alumnos o colegas. Excelente para documentar el proceso de enseñanza-aprendizaje en Primaria.',
+                opciones: {
+                    'Formatos Base': 'Creación Propia, Resumen, Guía de Estudio, Entrada de Blog.',
+                    'Sugerencias': 'Genera automáticamente Propuesta de itinerario, Informe de riesgos, Relato de viaje, Glosario, basados en tus fuentes.'
+                },
+                ejemplos: [
+                    '<strong>Ciencias Sociales (4º Primaria):</strong> Generar una Guía de Estudio con el formato <strong>"Creación Propia"</strong> sobre los Continentes y Océanos, incluyendo 3 sesiones con actividades y un mapa para colorear, basándose en el libro de texto y un atlas escolar.',
+                    '<strong>Ciencias Naturales (5º Primaria):</strong> Usar el formato <strong>"Resumen"</strong> para crear una ficha comparativa sobre animales vertebrados e invertebrados, citando las fuentes del libro de Ciencias.'
+                ]
+            },
+            flashcards: {
+                titulo: '2. Tarjetas Didácticas (Flashcards)',
+                proposito: 'Repaso Rápido y Evaluación Formativa.',
+                descripcion: 'Convierte términos y conceptos clave de tus documentos subidos en preguntas y respuestas automáticas. Perfecto para el inicio de clase, para afianzar vocabulario o para preparar repasos rápidos con los más pequeños.',
+                opciones: {
+                    'Personalización': 'Número de tarjetas, Nivel de dificultad (Bajo, Medio, Alto), Enfoque temático específico.'
+                },
+                ejemplos: [
+                    '<strong>Lengua (3º Primaria):</strong> Crear un lote de 15 tarjetas de Nivel Bajo con vocabulario nuevo de un cuento leído en clase, con la palabra por un lado y su significado sencillo por el otro.',
+                    '<strong>Matemáticas (4º Primaria):</strong> Generar 20 tarjetas de Nivel Medio para repasar las tablas de multiplicar del 6 al 9, limitando la fuente a la ficha de ejercicios subida.'
+                ]
+            },
+            mapa: {
+                titulo: '3. Mapa Mental',
+                proposito: 'Visualización de la Estructura Curricular y Conceptual.',
+                descripcion: 'Crea una estructura jerárquica de todo el tema basada en tus fuentes. Ayuda a los profesores a visualizar las conexiones entre subtemas y a los alumnos a entender el <strong>"panorama general"</strong> del contenido con imágenes claras. Cada nodo es interactivo para citar el origen.',
+                opciones: {
+                    'Función': 'Actúa como un <strong>Índice Navegable</strong> que te lleva al Chat con citas del documento original.'
+                },
+                ejemplos: [
+                    '<strong>Ciencias Naturales (2º Primaria):</strong> Generar un Mapa Mental sobre "El Ciclo del Agua", mostrando las conexiones entre evaporación, condensación y precipitación, para pegar en la pizarra.',
+                    '<strong>Ciencias Sociales (5º Primaria):</strong> Crear un mapa sobre "Los Órganos de Gobierno de mi Localidad". Al hacer clic en el nodo "Alcaldía", la IA remite al documento exacto donde se describe su función.'
+                ]
+            },
+            audio: {
+                titulo: '4. Resumen de Audio',
+                proposito: 'Repaso Agilizado y Ambientación (Mini Podcast).',
+                descripcion: 'Un mini-podcast con dos presentadores que comentan tus fuentes seleccionadas. Útil para repasar contenidos de forma amena antes de un examen o como ambientación al inicio del tema. ¡Incluye la función <strong>Interactiva</strong> (en inglés) para hacer preguntas al audio!',
+                opciones: {
+                    'Formatos': 'Breve (repaso rápido), Información Detallada (<strong>deep dive</strong>), Crítica (detectar sesgos y lagunas), Debate (contrastar posturas).'
+                },
+                ejemplos: [
+                    '<strong>Ciencias Naturales (3º Primaria):</strong> Usar el formato <strong>"Breve"</strong> para generar un mini-podcast que repase los animales de la granja y sus crías, basado en una ficha o un cuento subido.',
+                    '<strong>Formación Docente:</strong> Usar el formato <strong>"Debate"</strong> para contrastar dos artículos sobre métodos de enseñanza de la lectoescritura (método fonético vs. método global), como recurso para preparar una sesión de claustro.'
+                ]
+            },
+            video: {
+                titulo: '5. Resumen de Vídeo',
+                proposito: 'Comunicación Rápida y Visualización de Conceptos.',
+                descripcion: 'Genera un resumen narrado que se monta a partir de las fuentes que eliges. Es la forma más rápida y visual de repasar lo que has aprendido de tus documentos, muy útil con alumnos pequeños.',
+                opciones: {
+                    'Duración': '<strong>Breve</strong> (aprox. 2 minutos) o <strong>Explicativo</strong> (aprox. 6-7 minutos).',
+                    'Estilos Visuales': 'Pizarra, Cuaderno, Dibujo Retro, Legado, Papiroflexia, Anime (impulsados por el modelo <strong>Nano Banana</strong>).'
+                },
+                ejemplos: [
+                    '<strong>Ciencias Naturales (1º Primaria):</strong> Crear un vídeo <strong>"Breve"</strong> con el estilo <strong>"Dibujo Retro"</strong> que resuma las partes del cuerpo humano, ideal para el inicio de la clase.',
+                    '<strong>Ciencias Naturales (3º Primaria):</strong> Generar un vídeo <strong>"Explicativo"</strong> con el estilo <strong>"Papiroflexia"</strong> que muestre paso a paso el ciclo de vida de la mariposa, basado en un cuento y una ficha de ciencias, como recurso de estudio.'
+                ]
+            }
+        };
+
+        // Función para alternar el contenido del acordeón (secciones de guion)
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const arrow = element.querySelector('.arrow-icon');
+
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.classList.remove('rotate-180');
+            } else {
+                // Cierra todos los demás
+                document.querySelectorAll('.accordion-content.active').forEach(item => {
+                    item.classList.remove('active');
+                    const prevElement = item.previousElementSibling;
+                    if (prevElement) {
+                        const prevArrow = prevElement.querySelector('.arrow-icon');
+                        if (prevArrow) prevArrow.classList.remove('rotate-180');
+                    }
+                });
+
+                // Abre el contenido actual
+                content.classList.add('active');
+                arrow.classList.add('rotate-180');
+            }
+        }
+
+        // Función para mostrar el detalle de cada recurso de EL ESTUDIO
+        function mostrarRecurso(recurso) {
+            // Desactivar todos los botones y activar el seleccionado
+            document.querySelectorAll('.btn-recurso').forEach(btn => {
+                btn.classList.remove('activa');
+            });
+            document.getElementById('btn-' + recurso).classList.add('activa');
+
+            // Mostrar el detalle
+            const detalle = document.getElementById('resource-detail');
+            const data = recursosConceptuales[recurso];
+
+            let opcionesHtml = '';
+            if (data.opciones) {
+                opcionesHtml += '<h4>Opciones de Formato:</h4><ul class="list-disc list-inside ml-4 text-gray-600 space-y-1">';
+                for (const key in data.opciones) {
+                    opcionesHtml += `<li><strong>${key}:</strong> ${data.opciones[key]}</li>`;
+                }
+                opcionesHtml += '</ul>';
+            }
+
+            let ejemplosHtml = '';
+            if (data.ejemplos) {
+                ejemplosHtml += '<div class="mt-4 pt-3 border-t border-gray-300 ejemplo">';
+                ejemplosHtml += '<h4 class="font-bold text-gray-700 mb-2">Ejemplo Práctico:</h4>';
+                ejemplosHtml += '<ul class="list-disc list-inside ml-4 text-gray-600 space-y-1">';
+                data.ejemplos.forEach(ejemplo => {
+                    ejemplosHtml += `<li>${ejemplo}</li>`;
+                });
+                ejemplosHtml += '</ul></div>';
+            }
+
+            detalle.innerHTML = `
+                <h3 class="text-xl font-bold text-gray-800 mb-2">${data.titulo}</h3>
+                <p class="text-gray-600 mb-3"><strong>Propósito:</strong> <span class="font-bold text-blue-700">${data.proposito}</span></p>
+                <p class="text-gray-600">${data.descripcion}</p>
+                ${opcionesHtml}
+                ${ejemplosHtml}
+            `;
+        }
+
+        // Abrir la primera sección del guion y la primera sección de recursos al cargar
+        window.onload = function () {
+            const firstBlock = document.querySelector('.content-block');
+            if (firstBlock) {
+                toggleAccordion(firstBlock.firstElementChild);
+            }
+            // Mostrar por defecto el detalle del Informe
+            mostrarRecurso('informe');
+        }
+    </script>
+</body>
+
+</html>
